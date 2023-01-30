@@ -8,6 +8,7 @@ import { AuthProvider } from './hooks/useAuth';
 
 export default function App() {
   return (
+    
     <NavigationContainer>
       <AuthProvider>
         <StackNavigator />
