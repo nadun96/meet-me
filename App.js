@@ -1,12 +1,29 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import { createStackNavigator } from "@react-navigation/stack";
+import { NavigationContainer } from '@react-navigation/native';
+import { Screen } from 'react-native-screens';
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false
+      }}
+      initialRouteName={'Dashboard'}
+    >
+      <Stack.Screen
+        name="Dashboard"
+        component={Tabs}
+      />
+
+      <Stack.Screen
+        name="Place"
+        component={Place}
+      />
+    </Stack.Navigator>
+  </NavigationContainer>
   );
 }
 
