@@ -4,16 +4,14 @@ import { LogBox } from 'react-native';
 LogBox.ignoreAllLogs();
 import StackNavigator from './StackNavigator';
 import { NavigationContainer } from '@react-navigation/native';
-import { AuthProvider } from './hooks/useAuth';
+//import { AuthProvider } from './hooks/useAuth';
+import tw from 'tailwind-rn';
 
 export default function App() {
   return (
-    
-    <NavigationContainer>
-      <AuthProvider>
-        <StackNavigator />
-      </AuthProvider>
-    </NavigationContainer>
+    <View style={tw("justify-center items-center")}>
+      <Text>App</Text>
+    </View>
   );
 }
 
