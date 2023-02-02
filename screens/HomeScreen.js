@@ -4,6 +4,7 @@ import CustomListItem from '../components/CustomListItem'
 import { Avatar } from 'react-native-elements';
 import { auth, db } from '../firebase';
 import { AntDesign, SimpleLineIcons } from '@expo/vector-icons';
+import { Profile } from '../screens/Profile';
 
 const HomeScreen = ({navigation}) => {
 
@@ -22,7 +23,7 @@ const HomeScreen = ({navigation}) => {
             headerTintColor: "black",
             headerLeft: () => (
                 <View style={{ marginLeft: 5 }}>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => {navigation.navigate('Profile')}}>
                         <Avatar 
                             rounded 
                             source={{
