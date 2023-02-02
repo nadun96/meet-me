@@ -3,12 +3,14 @@ import React, { useLayoutEffect } from 'react'
 import { KeyboardAvoidingView } from 'react-native'
 import { StatusBar } from 'expo-status-bar'
 import { Button, Input, Text } from 'react-native-elements'
+import { auth } from '../firebase';
 
 const RegisterScreen = ({ navigation }) => {
     const [name, setName] = React.useState("");
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
     const [imageUrl, setImageUrl] = React.useState("");
+    const [phoneNumber, setPhoneNumber] = React.useState("");
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -17,7 +19,15 @@ const RegisterScreen = ({ navigation }) => {
     }, [navigation]);
 
     const register = () => { 
-        
+        auth.createUserWithEmailAndPassword(email, password)
+        .then((authUser) => {
+            authUser.user.updateProfile({
+                displayName: name,
+                photoURL: imageUrl || "https://cdn-icons-png.flaticon.com/512/25/25634.png",
+                phoneNumber: phone,
+            });
+        })
+        .catch((error) => alert(error.message));
     };
 
     return (
@@ -40,6 +50,12 @@ const RegisterScreen = ({ navigation }) => {
                     type='email'
                     value={email}
                     onChangeText={(text) => setEmail(text)}
+                />
+                <Input
+                    placeholder='Phone number'
+                    type='phone'
+                    value={phoneNumber}
+                    onChangeText={(text) => setPhoneNumber(text)}
                 />
                 <Input
                     placeholder='Password'
