@@ -4,6 +4,7 @@ import CustomListItem from '../components/CustomListItem'
 import { Avatar } from 'react-native-elements';
 import { auth, db } from '../firebase';
 import { AntDesign, SimpleLineIcons } from '@expo/vector-icons';
+import { BottomTabNav } from '../navigation/BottomTabNav';
 
 const HomeScreen = ({navigation}) => {
 
@@ -16,7 +17,7 @@ const HomeScreen = ({navigation}) => {
 
     useLayoutEffect(() => {
         navigation.setOptions({
-            title: "MeetMe",
+            title: "Chat",
             headerStyle: { backgroundColor: "#fff" },
             headerTitleStyle: { color: "black" },
             headerTintColor: "black",
@@ -57,7 +58,7 @@ const HomeScreen = ({navigation}) => {
     }, [navigation]);
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.contentContainer}>
       <ScrollView>
         <CustomListItem />
       </ScrollView>
@@ -67,4 +68,6 @@ const HomeScreen = ({navigation}) => {
 
 export default HomeScreen
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+    
+})
