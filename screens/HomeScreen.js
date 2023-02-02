@@ -5,8 +5,10 @@ import { Avatar } from 'react-native-elements';
 import { auth, db } from '../firebase';
 import { AntDesign, SimpleLineIcons } from '@expo/vector-icons';
 import ProfileScreen from './ProfileScreen';
+import { useNavigation } from '@react-navigation/native';
 
 const HomeScreen = ({navigation}) => {
+    //const navigation = useNavigation();
 
     const signOutUser = () => {
         auth.signOut().then(() => {
@@ -51,7 +53,7 @@ const HomeScreen = ({navigation}) => {
                     <TouchableOpacity onPress={signOutUser}>
                         <AntDesign name="logout" size={24} color="black" />
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={ProfileScreen}>
+                    <TouchableOpacity onPress={() => navigation.navigate('ProfileScreen')}>
                         <AntDesign name="user" size={24} color="black" />
                     </TouchableOpacity>
                 </View>
