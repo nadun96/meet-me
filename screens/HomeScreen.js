@@ -1,74 +1,70 @@
-import { View, Text, SafeAreaView, Image, TouchableOpacity } from 'react-native';
-import React, { useLayoutEffect } from 'react';
-import { useNavigation } from '@react-navigation/core';
-import tw from 'tailwind-rn';
-import generateId from '../lib/generateId'
+import { SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import React, { useLayoutEffect } from 'react'
+import CustomListItem from '../components/CustomListItem'
+import { Avatar } from 'react-native-elements';
+import { auth, db } from '../firebase';
+import { AntDesign, SimpleLineIcons } from '@expo/vector-icons';
 
-const HomeScreen = () => {
-    const navigation = useNavigation();
+const HomeScreen = ({navigation}) => {
+
+    const signOutUser = () => {
+        auth.signOut().then(() => {
+            navigation.replace("Login");
+        });
+    };
 
 
-    const loggedInProfile = await(
-        await getDoc(doc(db, "users",user.uid))
-        ).data();
-    
-    //check if the user swipped on you...
-    getDoc(doc(db, "users", userSwiped.id, "swipes", user.uid)).then(
-        (documentSnapshot) => {
-            if(documentSnapshot.exists()){
-                //user has matched with you before you matched with them...
-                //Create a MATCH!
-                console.log('Hooray, You MATCHED with ${userSwiped.dispalyName}');
-    
-            setDoc(
-                doc(db, "users", user.uid, "swipes", userSwiped.id),
-                userSwiped
-                );
-    
-            //CREATE A MATCH!!!
-            setDoc(doc(db, 'matches', generateId(user.uid, userSwiped.id)),{
-            users:{
-                [user.uid]:loggedInProfile,
-                [userSwiped.id]: userSwiped
-                },
-                userMatched: [user.uid, userSwiped.id],
-                timestamp: serverTimestamp(),
-            });
-                navigation.navigate("Match",{
-                    loggedInProfile,
-                    userSwiped,
-            });
-    
-            }else{
-            //User has swiped as first interaction between the two or didn't get swiped...
-                console.log(
-                    'You swiped on ${userSwiped.dispalyName} (${userSwiped.job})'
-                );
-                setDoc(
-                    doc(db,"users",user.uid, "swipes" , userSwiped.id),
-                    userSwiped
-                );
-            
-                }
-    
-        }
-    );
+    useLayoutEffect(() => {
+        navigation.setOptions({
+            title: "MeetMe",
+            headerStyle: { backgroundColor: "#fff" },
+            headerTitleStyle: { color: "black" },
+            headerTintColor: "black",
+            headerLeft: () => (
+                <View style={{ marginLeft: 5 }}>
+                    <TouchableOpacity>
+                        <Avatar 
+                            rounded 
+                            source={{
+                                uri: auth?.currentUser?.photoURL,
+                            }}
+                            
+                        />
+                    </TouchableOpacity>
+                </View>
+                
+            ),
+            headerRight: () => (
+                <View style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    width: 80,
+                    marginRight: 20,
+                }}>
+                    <TouchableOpacity>
+                        <AntDesign name="camerao" size={24} color="black" />
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => navigation.navigate('AddChat')}>
+                        <SimpleLineIcons name="pencil" size={24} color="black" />
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={signOutUser}>
+                        <AntDesign name="logout" size={24} color="black" />
+                    </TouchableOpacity>
+                </View>
+            ),
 
-    return (
-        <SafeAreaView>
-            {/* Header */}
-            <View>
-                <TouchableOpacity>
-                    <Image 
-                        style={{width: 100, height: 100}}
-                        source={'https://i.imgur.com/o7umiJN.jpeg'} 
-                    />
-                </TouchableOpacity>
-            </View>
-            {/* End of header */}
-            <Text>HomeScreen</Text>
-        </SafeAreaView>
-    );
+        });
+    }, [navigation]);
+
+  return (
+    <SafeAreaView>
+      <ScrollView>
+        <CustomListItem />
+      </ScrollView>
+    </SafeAreaView>
+  )
 }
 
 export default HomeScreen
+
+const styles = StyleSheet.create({})
