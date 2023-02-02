@@ -4,6 +4,7 @@ import CustomListItem from '../components/CustomListItem'
 import { Avatar } from 'react-native-elements';
 import { auth, db } from '../firebase';
 import { AntDesign, SimpleLineIcons } from '@expo/vector-icons';
+import ProfileScreen from './ProfileScreen';
 
 const HomeScreen = ({navigation}) => {
 
@@ -49,6 +50,9 @@ const HomeScreen = ({navigation}) => {
                     </TouchableOpacity>
                     <TouchableOpacity onPress={signOutUser}>
                         <AntDesign name="logout" size={24} color="black" />
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={ProfileScreen}>
+                        <AntDesign name="user" size={24} color="black" />
                     </TouchableOpacity>
                 </View>
             ),
