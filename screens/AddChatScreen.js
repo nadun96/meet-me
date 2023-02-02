@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native'
 import React, { useLayoutEffect, useState } from 'react'
 import { Button, Input } from "react-native-elements"; 
