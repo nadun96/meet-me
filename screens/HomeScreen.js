@@ -13,15 +13,7 @@ const HomeScreen = ({ navigation }) => {
     });
   };
 
-
-
     const [chats, setChats] = React.useState([]);
-
-    const signOutUser = () => {
-        auth.signOut().then(() => {
-            navigation.replace("Login");
-        });
-    };
 
     useEffect(() => {
         const unsubscribe = db.collection('chats').onSnapshot((snapshot) =>
