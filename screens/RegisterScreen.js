@@ -3,6 +3,7 @@ import React, { useLayoutEffect } from 'react'
 import { KeyboardAvoidingView } from 'react-native'
 import { StatusBar } from 'expo-status-bar'
 import { Button, Input, Text } from 'react-native-elements'
+import { auth } from '../firebase';
 
 const RegisterScreen = ({ navigation }) => {
     const [name, setName] = React.useState("");
@@ -17,7 +18,14 @@ const RegisterScreen = ({ navigation }) => {
     }, [navigation]);
 
     const register = () => { 
-        
+        auth.createUserWithEmailAndPassword(email, password)
+        .then((authUser) => {
+            authUser.user.updateProfile({
+                displayName: name,
+                photoURL: imageUrl || "https://cdn-icons-png.flaticon.com/512/25/25634.png",
+            });
+        })
+        .catch((error) => alert(error.message));
     };
 
     return (
