@@ -13,9 +13,14 @@ import ChatScreen from "./screens/ChatScreen";
 const Stack = createNativeStackNavigator();
 
 const globalScreenOptions = {
-  headerStyle: { backgroundColor: "#2C6BED" },
-  headerTitleStyle: { color: "white" },
+  headerStyle: { backgroundColor: "#E66EB2" },
+  headerTitleStyle: {
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 24,
+  },
   headerTintColor: "white",
+  headerTextAlign: "center",
 };
 
 export default function App() {
@@ -27,7 +32,11 @@ export default function App() {
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="AddChat" component={AddChatScreen} />
         <Stack.Screen name="Profile" component={Profile} />
-        <Stack.Screen name="Chat" component={ChatScreen} />
+        <Stack.Screen
+          name="Chat"
+          component={ChatScreen}
+          options={{ headerBackTitle: null }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -36,7 +45,6 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
   },
