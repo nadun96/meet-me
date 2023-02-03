@@ -60,14 +60,7 @@ const ChatScreen = ({ navigation, route }) => {
           </Text>
         </View>
       ),
-      headerLeft: () => (
-        <TouchableOpacity
-          style={{ marginLeft: 10 }}
-          onPress={navigation.goBack}
-        >
-          <AntDesign name="arrowleft" size={24} color="white" />
-        </TouchableOpacity>
-      ),
+
       headerRight: () => (
         <View
           style={{
@@ -76,14 +69,7 @@ const ChatScreen = ({ navigation, route }) => {
             width: 80,
             marginRight: 20,
           }}
-        >
-          <TouchableOpacity>
-            <FontAwesome name="video-camera" size={24} color="white" />
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <Ionicons name="call" size={24} color="white" />
-          </TouchableOpacity>
-        </View>
+        ></View>
       ),
     });
   }, [navigation, messages]);
