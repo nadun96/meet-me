@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useEffect, useLayoutEffect } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import CustomListItem from "../components/CustomListItem";
 import { Avatar } from "react-native-elements";
 import { auth, db } from "../firebase";
@@ -31,8 +31,8 @@ const HomeScreen = ({ navigation }) => {
         }))
       )
     );
-
     console.log(chats);
+    console.log();
     return unsubscribe;
   }, []);
 
