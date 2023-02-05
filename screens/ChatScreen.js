@@ -1,29 +1,24 @@
 // ChatScreen.js
 import React, { useLayoutEffect, useState } from "react";
+import { StyleSheet, Text, View } from "react-native";
 import { Avatar } from "react-native-elements";
-import { Ionicons } from "@expo/vector-icons";
+import { TouchableOpacity } from "react-native";
+import { AntDesign, FontAwesome, Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native";
 import { StatusBar } from "expo-status-bar";
-import {
-  Platform,
-  TextInput,
-  ScrollView,
-  Keyboard,
-  TouchableWithoutFeedback,
-  StyleSheet,
-  Text,
-  View,
-  KeyboardAvoidingView,
-  TouchableOpacity,
-} from "react-native";
-
-import { auth, db, firebase } from "../firebase";
+import { KeyboardAvoidingView } from "react-native";
+import { Platform } from "react-native";
+import { ScrollView } from "react-native";
+import { TextInput } from "react-native";
+import { Keyboard } from "react-native";
+import { TouchableWithoutFeedback } from "react-native";
+import firebase from "firebase/app";
+import { auth, db } from "../firebase";
+import * as Location from "expo-location";
 
 const ChatScreen = ({ navigation, route }) => {
-  console.log(route.params.id);
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState([]);
-
   useLayoutEffect(() => {
     const unsubscribe = db
       .collection("chats")
@@ -58,7 +53,7 @@ const ChatScreen = ({ navigation, route }) => {
             source={{
               uri:
                 messages[0]?.data.photoURL ||
-                "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png",
+                "https://cencup.com/wp-content/uploads/2019/07/avatar-placeholder.png",
             }}
           />
           <Text style={{ color: "white", marginLeft: 10, fontWeight: "700" }}>
@@ -66,7 +61,14 @@ const ChatScreen = ({ navigation, route }) => {
           </Text>
         </View>
       ),
-
+      headerLeft: () => (
+        <TouchableOpacity
+          style={{ marginLeft: 10 }}
+          onPress={navigation.goBack}
+        >
+          <AntDesign name="arrowleft" size={24} color="white" />
+        </TouchableOpacity>
+      ),
       headerRight: () => (
         <View
           style={{
@@ -75,31 +77,39 @@ const ChatScreen = ({ navigation, route }) => {
             width: 80,
             marginRight: 20,
           }}
-        ></View>
+        >
+          <TouchableOpacity>
+            <FontAwesome name="video-camera" size={24} color="white" />
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Ionicons name="call" size={24} color="white" />
+          </TouchableOpacity>
+        </View>
       ),
     });
   }, [navigation, messages]);
 
   const sendMessage = () => {
-    console.log(firebase.firestore.FieldValue.serverTimestamp());
-    console.log(input);
-    console.log(auth.currentUser.displayName);
-    console.log(auth.currentUser.photoURL);
-
     Keyboard.dismiss();
-    db.collection("chats")
-      .doc(route.params.id)
-      .collection("messages")
-      .add({
-        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-        message: input,
-        displayName: auth.currentUser.displayName,
-        email: auth.currentUser.email,
-        photoURL:
-          auth.currentUser.photoURL ||
-          "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png",
-      });
+    db.collection("chats").doc(route.params.id).collection("messages").add({
+      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      message: input,
+      displayName: auth.currentUser.displayName,
+      email: auth.currentUser.email,
+      photoURL: auth.currentUser.photoURL,
+    });
     setInput("");
+  };
+
+  const getLocation = async () => {
+    let { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== "granted") {
+      setErrorMsg("Permission to access location was denied");
+      return;
+    }
+    
+    let location = await Location.getCurrentPositionAsync({});
+    setInput(location);
   };
 
   return (
@@ -166,6 +176,9 @@ const ChatScreen = ({ navigation, route }) => {
               />
               <TouchableOpacity onPress={sendMessage} activeOpacity={0.5}>
                 <Ionicons name="send" size={24} color="#2B68E6" />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={getLocation} activeOpacity={0.5}>
+                <Ionicons name="location" size={24} color="#2B68E6" />
               </TouchableOpacity>
             </View>
           </>
