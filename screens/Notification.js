@@ -32,7 +32,7 @@ const Notification = () => {
             .doc(notification.id)
             .delete()
             .then(() => {
-                alert("Deleted successfully");
+                // alert("Deleted successfully");
             })
             .catch(error => {
                 alert(error);
@@ -63,7 +63,7 @@ const Notification = () => {
             <View style={styles.formContainer}>
                 <TextInput
                     style={styles.input}
-                    placeholder='Add new cationcation'
+                    placeholder='Add new notification'
                     placeholderTextColor="#aaaaaa"
                     onChangeText={(heading) => setAddData(heading)}
                     value={addData}
@@ -81,12 +81,16 @@ const Notification = () => {
                 renderItem={({item}) => (
                     <View>
                         <Pressable
-                        style={styles.container}>
+                        style={styles.container}
+                        onPress={() => navigation.navigate('NotificationUpdate', {item})}>
                             <FontAwesome name="trash-o" 
                             color="red" 
                             onPress={() => deleteNotification(item)} 
                             style={styles.todoIcon} />
                             <View style={styles.innerContainer}>
+                                <Text>
+                                    {auth?.currentUser?.displayName}
+                                </Text>
                                 <Text style={styles.itemHeading}>
                                     {item.heading[0].toUpperCase() + item.heading.slice(1)}
                                 </Text>
@@ -141,7 +145,7 @@ const styles = StyleSheet.create({
     button: {
         height: 47,
         borderRadius: 5,
-        backgroundColor: '#788eec',
+        backgroundColor: 'pink',
         width: 80,
         alignItems: "center",
         justifyContent: 'center'
