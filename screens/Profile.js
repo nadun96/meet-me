@@ -56,6 +56,7 @@ const Profile = ({ navigation }) => {
   };
 
   return (
+    
     <View style={styles.container}>
       <Avatar
         style={styles.profilePicture}
@@ -63,6 +64,7 @@ const Profile = ({ navigation }) => {
         source={{
           uri: auth?.currentUser?.photoURL,
         }}
+       
       />
 
       <TextInput
@@ -93,6 +95,7 @@ const Profile = ({ navigation }) => {
         <Text style={styles.buttonText}>Sign Out</Text>
       </TouchableOpacity>
     </View>
+    
   );
 };
 
@@ -146,5 +149,8 @@ const styles = StyleSheet.create({
     width: 180,
     height: 180,
     marginBottom: 50,
+    borderWidth :3,
+    borderColor :"orange",
+    borderRadius:20
   },
 });
