@@ -20,7 +20,9 @@ const HomeScreen = ({ navigation }) => {
     });
   };
 
+
   const [chats, setChats] = React.useState([]);
+
 
   useEffect(() => {
     const unsubscribe = db.collection("chats").onSnapshot((snapshot) =>
