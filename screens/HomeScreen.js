@@ -1,3 +1,4 @@
+
 import {
   SafeAreaView,
   ScrollView,
@@ -20,7 +21,9 @@ const HomeScreen = ({ navigation }) => {
     });
   };
 
+
   const [chats, setChats] = React.useState([]);
+
 
   useEffect(() => {
     const unsubscribe = db.collection("chats").onSnapshot((snapshot) =>
@@ -35,6 +38,7 @@ const HomeScreen = ({ navigation }) => {
     console.log();
     return unsubscribe;
   }, []);
+
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -91,6 +95,7 @@ const HomeScreen = ({ navigation }) => {
   return (
     <SafeAreaView>
       <ScrollView style={styles.container}>
+
         {chats.map(({ id, data: { chatName } }) => (
           <CustomListItem
             key={id}
@@ -99,6 +104,7 @@ const HomeScreen = ({ navigation }) => {
             enterChat={enterChat}
           />
         ))}
+
       </ScrollView>
     </SafeAreaView>
   );
@@ -107,7 +113,9 @@ const HomeScreen = ({ navigation }) => {
 export default HomeScreen;
 
 const styles = StyleSheet.create({
+
   container: {
     height: "100%",
   },
 });
+
