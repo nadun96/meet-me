@@ -10,7 +10,6 @@ const RegisterScreen = ({ navigation }) => {
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
     const [imageUrl, setImageUrl] = React.useState("");
-    const [phoneNumber, setPhoneNumber] = React.useState("");
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -24,7 +23,6 @@ const RegisterScreen = ({ navigation }) => {
             authUser.user.updateProfile({
                 displayName: name,
                 photoURL: imageUrl || "https://cdn-icons-png.flaticon.com/512/25/25634.png",
-                phoneNumber: phone,
             });
         })
         .catch((error) => alert(error.message));
@@ -50,12 +48,6 @@ const RegisterScreen = ({ navigation }) => {
                     type='email'
                     value={email}
                     onChangeText={(text) => setEmail(text)}
-                />
-                <Input
-                    placeholder='Phone number'
-                    type='phone'
-                    value={phoneNumber}
-                    onChangeText={(text) => setPhoneNumber(text)}
                 />
                 <Input
                     placeholder='Password'

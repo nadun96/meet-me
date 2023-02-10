@@ -1,15 +1,19 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
-import firebase from 'firebase/compat/app';
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+} from "react-native";
+import firebase from "firebase/compat/app";
 import { Avatar } from "react-native-elements";
 import { auth, db } from "../firebase";
 
-
-
 const Profile = ({ navigation }) => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState(null);
 
   const signOutUser = () => {
@@ -21,16 +25,19 @@ const Profile = ({ navigation }) => {
   const handleUpdate = () => {
     const user = firebase.auth().currentUser;
     if (user) {
-      user.updateProfile({
-        displayName: name,
-      })
+      user
+        .updateProfile({
+          displayName: name,
+        })
         .then(() => {
-          user.updateEmail(email)
+          user
+            .updateEmail(email)
             .then(() => {
-              user.updatePassword(password)
+              user
+                .updatePassword(password)
                 .then(() => {
-                  alert('Information updated successfully!');
-                  () => navigation.navigate('Home');
+                  alert("Information updated successfully!");
+                  navigation.navigate("Home");
                 })
                 .catch((error) => {
                   setErrorMessage(error.message);
@@ -44,13 +51,12 @@ const Profile = ({ navigation }) => {
           setErrorMessage(error.message);
         });
     } else {
-      setErrorMessage('No user signed in');
+      setErrorMessage("No user signed in");
     }
   };
 
   return (
     <View style={styles.container}>
-
       <Avatar
         style={styles.profilePicture}
         rounded
@@ -58,7 +64,6 @@ const Profile = ({ navigation }) => {
           uri: auth?.currentUser?.photoURL,
         }}
       />
-
 
       <TextInput
         style={styles.input}
@@ -93,54 +98,53 @@ const Profile = ({ navigation }) => {
 
 export default Profile;
 
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
+    alignItems: "center",
     padding: 20,
+    backgroundColor: "#EAFDFC",
   },
   input: {
-    width: '100%',
+    width: "100%",
     height: 50,
     padding: 10,
     marginVertical: 10,
     borderWidth: 1,
-    borderColor: 'gray',
+    borderColor: "gray",
     borderRadius: 5,
   },
   error: {
-    color: 'red',
+    color: "red",
     marginVertical: 10,
   },
   button: {
-    width: '100%',
+    width: "40%",
     height: 50,
-    backgroundColor: 'blue',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#70C6C7",
+    alignItems: "center",
+    justifyContent: "center",
     marginVertical: 10,
     borderRadius: 5,
   },
 
   buttonSignOut: {
-    width: '100%',
+    width: "40%",
     height: 50,
-    backgroundColor: 'red',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#FC7300",
+    alignItems: "center",
+    justifyContent: "center",
     marginVertical: 10,
     borderRadius: 5,
   },
 
   buttonText: {
-    color: 'white',
+    color: "white",
   },
 
   profilePicture: {
     width: 180,
     height: 180,
-    marginBottom: 50
-  }
-
-})
+    marginBottom: 50,
+  },
+});
