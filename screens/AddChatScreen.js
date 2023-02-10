@@ -35,7 +35,6 @@ const AddChatScreen = ({ navigation }) => {
     chat.forEach((doc) => {
       doc.ref.delete();
     });
-    navigation.goBack();
   };
   
 
