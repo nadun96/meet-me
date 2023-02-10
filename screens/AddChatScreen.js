@@ -26,26 +26,51 @@ const AddChatScreen = ({ navigation }) => {
       .catch((error) => alert(error));
   };
 
+  // need to change function body to delete chat
+  const deleteChat = async () => {
+    const chat = await db
+      .collection("chats")
+      .where("chatName", "==", input)
+      .get();
+    chat.forEach((doc) => {
+      doc.ref.delete();
+    });
+  };
+
+  
   return (
     <View style={styles.container}>
       <Input
         placeholder="Enter a chat name"
         value={input}
         onChangeText={(text) => setInput(text)}
-        onSubmitEditing={createChat}
         leftIcon={
           <Icon name="wechat" type="antdesign" size={24} color="black" />
         }
       />
-      <Button onPress={createChat} title="Create new Chat" />
+      <View style={styles.buttonsContainer}>
+        <View><Button onPress={createChat} title="Create new Chat" /></View>
+        <View style={styles.buttons}><Button onPress={deleteChat} title="Delete Chat" /></View>
+      </View>
     </View>
+
+
   );
 };
 
 export default AddChatScreen;
 
 const styles = StyleSheet.create({
-
-  container: {},
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  buttonsContainer: {
+    marginTop: 20,
+  },
+  buttons:{
+    marginTop: 20,
+  },
 });
 
