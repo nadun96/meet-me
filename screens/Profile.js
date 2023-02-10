@@ -9,12 +9,34 @@ import {
 import firebase from "firebase/compat/app";
 import { Avatar } from "react-native-elements";
 import { auth, db } from "../firebase";
+import ImagePicker from "react-native-image-picker";
 
 const Profile = ({ navigation }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState(null);
+  const selectPicture = () => {
+    const options = {
+      title: "Select Profile Picture",
+      storageOptions: {
+        skipBackup: true,
+        path: "images",
+      },
+    };
+
+    ImagePicker.showImagePicker(options, (response) => {
+      if (response.didCancel) {
+        console.log("User cancelled image picker");
+      } else if (response.error) {
+        console.log("ImagePicker Error: ", response.error);
+      } else if (response.customButton) {
+        console.log("User tapped custom button: ", response.customButton);
+      } else {
+        setAvatarSource(response.uri);
+      }
+    });
+  };
 
   const signOutUser = () => {
     auth.signOut().then(() => {
@@ -56,14 +78,17 @@ const Profile = ({ navigation }) => {
   };
 
   return (
+    
     <View style={styles.container}>
-      <Avatar
-        style={styles.profilePicture}
-        rounded
-        source={{
-          uri: auth?.currentUser?.photoURL,
-        }}
-      />
+      <TouchableOpacity onPress={selectPicture}>
+  <Avatar
+    style={styles.profilePicture}
+    rounded
+    source={{
+      uri: auth?.currentUser?.photoURL,
+    }}
+  />
+</TouchableOpacity>
 
       <TextInput
         style={styles.input}
@@ -93,6 +118,7 @@ const Profile = ({ navigation }) => {
         <Text style={styles.buttonText}>Sign Out</Text>
       </TouchableOpacity>
     </View>
+    
   );
 };
 
@@ -146,5 +172,8 @@ const styles = StyleSheet.create({
     width: 180,
     height: 180,
     marginBottom: 50,
+    borderWidth :3,
+    borderColor :"orange",
+    borderRadius:20
   },
 });
