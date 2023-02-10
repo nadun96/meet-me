@@ -34,12 +34,10 @@ const AddChatScreen = ({ navigation }) => {
       .get();
     chat.forEach((doc) => {
       doc.ref.delete();
-    })
-    .then(() => {
-      navigation.goBack();
-    })
-    .catch((error) => alert(error));
+    });
+    navigation.goBack();
   };
+  
 
   
   return (
