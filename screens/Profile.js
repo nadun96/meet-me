@@ -37,7 +37,7 @@ const Profile = ({ navigation }) => {
                 .updatePassword(password)
                 .then(() => {
                   alert("Information updated successfully!");
-                  () => navigation.navigate("Home");
+                  navigation.navigate("Home");
                 })
                 .catch((error) => {
                   setErrorMessage(error.message);

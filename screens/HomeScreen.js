@@ -75,8 +75,8 @@ const HomeScreen = ({ navigation }) => {
           <TouchableOpacity onPress={() => navigation.navigate("AddChat")}>
             <SimpleLineIcons name="pencil" size={24} color="black" />
           </TouchableOpacity>
-          <TouchableOpacity onPress={signOutUser}>
-            <AntDesign name="logout" size={24} color="black" />
+          <TouchableOpacity onPress={() => navigation.navigate("Notification")}>
+            <SimpleLineIcons name="bell" size={24} color="black" />
           </TouchableOpacity>
         </View>
       ),
