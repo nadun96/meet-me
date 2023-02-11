@@ -1,8 +1,7 @@
-// ChatScreen.js
 import React, { useLayoutEffect, useState } from "react";
 import { Avatar } from "react-native-elements";
 import { Ionicons } from "@expo/vector-icons";
-import { SafeAreaView } from "react-native";
+import { Alert, SafeAreaView } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import {
   Platform,
@@ -41,6 +40,21 @@ const ChatScreen = ({ navigation, route }) => {
     return unsubscribe;
   }, []);
 
+  // delete message
+  const deleteMessage = (id) => {
+    db.collection("chats")
+      .doc(route.params.id)
+      .collection("messages")
+      .doc(id)
+      .delete()
+      .then(function () {
+        console.log("Message successfully deleted!");
+      })
+      .catch(function (error) {
+        console.error("Error removing message: ", error);
+      });
+  };
+
   useLayoutEffect(() => {
     navigation.setOptions({
       title: "Chat",
@@ -61,7 +75,13 @@ const ChatScreen = ({ navigation, route }) => {
                 "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png",
             }}
           />
-          <Text style={{ color: "white", marginLeft: 10, fontWeight: "700" }}>
+          <Text
+            style={{
+              color: "white",
+              marginLeft: 10,
+              fontWeight: "800",
+            }}
+          >
             {route.params.chatName}
           </Text>
         </View>
@@ -80,7 +100,7 @@ const ChatScreen = ({ navigation, route }) => {
     });
   }, [navigation, messages]);
 
-  const sendMessage = () => {
+  const sendMessage = (input) => {
     console.log(firebase.firestore.FieldValue.serverTimestamp());
     console.log(input);
     console.log(auth.currentUser.displayName);
@@ -110,7 +130,7 @@ const ChatScreen = ({ navigation, route }) => {
         style={styles.container}
         keyboardVerticalOffset={90}
       >
-        <TouchableWithoutFeedback onPress={Keyboard.dismiis}>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <>
             <ScrollView contentContainerStyle={{ paddingTop: 15 }}>
               {messages.map(({ id, data }) =>
@@ -129,6 +149,11 @@ const ChatScreen = ({ navigation, route }) => {
                       size={30}
                       source={{
                         uri: data.photoURL,
+                      }}
+                      overlayContainerStyle={{
+                        borderWidth: 1,
+                        borderColor: "orange",
+                        borderRadius: 17,
                       }}
                     />
                     <Text style={styles.recieverText}>{data.message}</Text>
@@ -149,6 +174,11 @@ const ChatScreen = ({ navigation, route }) => {
                       source={{
                         uri: data.photoURL,
                       }}
+                      overlayContainerStyle={{
+                        borderWidth: 1,
+                        borderColor: "black",
+                        borderRadius: 17,
+                      }}
                     />
                     <Text style={styles.senderText}>{data.message}</Text>
                     <Text style={styles.senderName}>{data.displayName}</Text>
@@ -159,12 +189,26 @@ const ChatScreen = ({ navigation, route }) => {
             <View style={styles.footer}>
               <TextInput
                 value={input}
-                onChangeText={(text) => setInput(text)}
-                onSubmitEditing={sendMessage}
+                onChangeText={(text) => {
+                  setInput(text);
+                }}
+                onSubmitEditing={() => {
+                  if (input) {
+                    sendMessage();
+                  }
+                }}
                 style={styles.textInput}
                 placeholder="Type Your Message"
               />
-              <TouchableOpacity onPress={sendMessage} activeOpacity={0.5}>
+              <TouchableOpacity
+                onPress={() => {
+                  const trimmedText = input.trim();
+                  if (input) {
+                    sendMessage(trimmedText);
+                  }
+                }}
+                activeOpacity={0.5}
+              >
                 <Ionicons name="send" size={24} color="pink" />
               </TouchableOpacity>
             </View>
@@ -198,10 +242,10 @@ const styles = StyleSheet.create({
     borderRadius: 30,
   },
   reciever: {
-    padding: 15,
-    backgroundColor: "#ECECEC",
+    padding: 10,
+    backgroundColor: "#d9ffb3",
     alignSelf: "flex-end",
-    borderRadius: 20,
+    borderRadius: 10,
     marginRight: 15,
     marginBottom: 20,
     maxWidth: "80%",
@@ -209,28 +253,31 @@ const styles = StyleSheet.create({
   },
   sender: {
     padding: 15,
-    backgroundColor: "#286BE6",
+    backgroundColor: "#e6ffff",
     alignSelf: "flex-start",
-    borderRadius: 20,
+    borderRadius: 10,
     margin: 15,
     maxWidth: "80%",
     position: "relative",
   },
   senderText: {
-    color: "white",
-    fontWeight: "500",
-    marginLeft: 10,
-    marginBottom: 15,
+    color: "black",
+    fontWeight: "600",
+    marginLeft: 7,
+    marginRight: 5,
   },
   recieverText: {
     color: "black",
-    fontWeight: "500",
-    marginLeft: 10,
+    fontWeight: "600",
+    marginLeft: 5,
+    marginRight: 7,
   },
   senderName: {
-    left: 10,
+    position: "absolute",
+    bottom: -10,
+    left: 20,
     paddingRight: 10,
-    fontSize: 10,
-    color: "white",
+    fontSize: 9,
+    color: "#006666",
   },
 });
