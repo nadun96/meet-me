@@ -45,5 +45,7 @@ const AddChatScreen = ({ navigation }) => {
 export default AddChatScreen;
 
 const styles = StyleSheet.create({
+
   container: {},
 });
+

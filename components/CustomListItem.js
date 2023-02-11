@@ -19,6 +19,7 @@ const CustomListItem = ({ id, chatName, enterChat }) => {
   }, []);
 
   return (
+
     <ListItem key={id} onPress={() => enterChat(id, chatName)} buttonDivider>
       <Avatar
         rounded
@@ -42,6 +43,7 @@ const CustomListItem = ({ id, chatName, enterChat }) => {
           {chatMessages?.[0]?.displayName} : {chatMessages?.[0]?.message}
         </ListItem.Subtitle>
       </ListItem.Content>
+
     </ListItem>
   );
 };
