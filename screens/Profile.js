@@ -5,6 +5,8 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
+  Alert,
+  ImageSourcePropType,
 } from "react-native";
 import firebase from "firebase/compat/app";
 import { Avatar } from "react-native-elements";
@@ -12,10 +14,13 @@ import { auth, db } from "../firebase";
 import * as ImagePicker from "react-native-image-picker";
 
 const Profile = ({ navigation }) => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [name, setName] = useState(auth?.currentUser?.displayName);
+  const [email, setEmail] = useState(auth?.currentUser?.email);
+  const [password, setPassword] = useState(auth?.currentUser?.password);
   const [errorMessage, setErrorMessage] = useState(null);
+  const [imageURL, setImageURL] = useState(auth?.currentUser?.photoURL || "");
+  const [error, setError] = useState(null);
+
   const selectPicture = () => {
     const options = {
       title: "Select Profile Picture",
@@ -50,6 +55,7 @@ const Profile = ({ navigation }) => {
       user
         .updateProfile({
           displayName: name,
+          photoURL: imageURL || auth?.currentUser?.photoURL,
         })
         .then(() => {
           user
@@ -83,10 +89,7 @@ const Profile = ({ navigation }) => {
         <Avatar
           style={styles.profilePicture}
           rounded
-          source={{
-            uri:
-              auth?.currentUser?.photoURL || "https://i.imgur.com/7k12EPD.png",
-          }}
+          source={imageURL ? { uri: imageURL } : require("../assets/icon.png")}
         />
       </TouchableOpacity>
 
@@ -109,6 +112,14 @@ const Profile = ({ navigation }) => {
         onChangeText={(text) => setPassword(text)}
         secureTextEntry={true}
       />
+
+      <TextInput
+        style={styles.input}
+        placeholder="Picture"
+        value={imageURL}
+        onChangeText={(text) => setImageURL(text)}
+      />
+
       {errorMessage && <Text style={styles.error}>{errorMessage}</Text>}
       <TouchableOpacity style={styles.button} onPress={handleUpdate}>
         <Text style={styles.buttonText}>Update</Text>
