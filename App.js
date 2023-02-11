@@ -35,13 +35,15 @@ export default function App() {
         <Stack.Screen name="AddChat" component={AddChatScreen} />
         <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="Notification" component={Notification} />
-        <Stack.Screen name="NotificationUpdate" component={NotificationUpdate} />
+        <Stack.Screen
+          name="NotificationUpdate"
+          component={NotificationUpdate}
+        />
         <Stack.Screen
           name="Chat"
           component={ChatScreen}
           options={{ headerBackTitle: null }}
         />
-
       </Stack.Navigator>
     </NavigationContainer>
   );
