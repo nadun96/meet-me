@@ -1,21 +1,29 @@
-import 'react-native-gesture-handler';
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import { NavigationContainer, StackActions } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import LoginScreen from './screens/LoginScreen';
-import RegisterScreen from './screens/RegisterScreen';
-import HomeScreen from './screens/HomeScreen';
-import AddChatScreen from './screens/AddChatScreen';
-import ProfileScreen from './screens/ProfileScreen';
+import "react-native-gesture-handler";
+import { StatusBar } from "expo-status-bar";
+import { StyleSheet, Text, View } from "react-native";
+import { NavigationContainer, StackActions } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import LoginScreen from "./screens/LoginScreen";
+import RegisterScreen from "./screens/RegisterScreen";
+import HomeScreen from "./screens/HomeScreen";
+import AddChatScreen from "./screens/AddChatScreen";
+import Profile from "./screens/Profile";
+import ChatScreen from "./screens/ChatScreen";
+import Notification from "./screens/Notification";
+import NotificationUpdate from "./screens/NotificationUpdate";
 
 const Stack = createNativeStackNavigator();
 
 const globalScreenOptions = {
-  headerStyle: { backgroundColor: "#2C6BED" },
-  headerTitleStyle: { color: "white" },
+  headerStyle: { backgroundColor: "#E66EB2" },
+  headerTitleStyle: {
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 24,
+  },
   headerTintColor: "white",
-}
+  headerTextAlign: "center",
+};
 
 export default function App() {
   return (
@@ -25,7 +33,15 @@ export default function App() {
         <Stack.Screen name="Register" component={RegisterScreen} />
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="AddChat" component={AddChatScreen} />
-        <Stack.Screen name="Profile" component={ProfileScreen} />
+        <Stack.Screen name="Profile" component={Profile} />
+        <Stack.Screen name="Notification" component={Notification} />
+        <Stack.Screen name="NotificationUpdate" component={NotificationUpdate} />
+        <Stack.Screen
+          name="Chat"
+          component={ChatScreen}
+          options={{ headerBackTitle: null }}
+        />
+
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -34,8 +50,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
