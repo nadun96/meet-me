@@ -2,7 +2,6 @@ import {
   SafeAreaView,
   ScrollView,
   StyleSheet,
-  Text,
   TouchableOpacity,
   View,
 } from "react-native";
@@ -20,9 +19,7 @@ const HomeScreen = ({ navigation }) => {
     });
   };
 
-
   const [chats, setChats] = React.useState([]);
-
 
   useEffect(() => {
     const unsubscribe = db.collection("chats").onSnapshot((snapshot) =>
@@ -35,6 +32,7 @@ const HomeScreen = ({ navigation }) => {
     );
     console.log(chats);
     console.log();
+
     return unsubscribe;
   }, []);
 
@@ -57,11 +55,11 @@ const HomeScreen = ({ navigation }) => {
           >
             <Avatar
               rounded
-              size="medium"
+              size={40}
               source={{
-                uri: auth?.currentUser?.photoURL
-                  ? { uri: auth?.currentUser?.photoURL }
-                  : "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png",
+                uri:
+                  auth?.currentUser?.photoURL ||
+                  "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png",
               }}
               containerStyle={{
                 borderWidth: 2,
@@ -71,7 +69,6 @@ const HomeScreen = ({ navigation }) => {
               overlayContainerStyle={{
                 borderWidth: 2,
                 borderColor: "black",
-                borderRadius: 30,
               }}
             />
           </TouchableOpacity>
