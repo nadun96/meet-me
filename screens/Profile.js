@@ -5,43 +5,18 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
-  Alert,
-  ImageSourcePropType,
+  Image,
 } from "react-native";
 import firebase from "firebase/compat/app";
 import { Avatar } from "react-native-elements";
 import { auth, db } from "../firebase";
-import * as ImagePicker from "react-native-image-picker";
 
 const Profile = ({ navigation }) => {
-  const [name, setName] = useState(auth?.currentUser?.displayName);
-  const [email, setEmail] = useState(auth?.currentUser?.email);
-  const [password, setPassword] = useState(auth?.currentUser?.password);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [pictureUrl, setURL] = useState(auth.currentUser.photoURL);
   const [errorMessage, setErrorMessage] = useState(null);
-  const [imageURL, setImageURL] = useState(auth?.currentUser?.photoURL || "");
-  const [error, setError] = useState(null);
-
-  const selectPicture = () => {
-    const options = {
-      title: "Select Profile Picture",
-      storageOptions: {
-        skipBackup: true,
-        path: "images",
-      },
-    };
-
-    ImagePicker.showImagePicker(options, (response) => {
-      if (response.didCancel) {
-        console.log("User cancelled image picker");
-      } else if (response.error) {
-        console.log("ImagePicker Error: ", response.error);
-      } else if (response.customButton) {
-        console.log("User tapped custom button: ", response.customButton);
-      } else {
-        setAvatarSource(response.uri);
-      }
-    });
-  };
 
   const signOutUser = () => {
     auth.signOut().then(() => {
@@ -55,7 +30,7 @@ const Profile = ({ navigation }) => {
       user
         .updateProfile({
           displayName: name,
-          photoURL: imageURL || auth?.currentUser?.photoURL,
+          photoURL: pictureUrl,
         })
         .then(() => {
           user
@@ -85,13 +60,20 @@ const Profile = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={selectPicture}>
-        <Avatar
-          style={styles.profilePicture}
-          rounded
-          source={imageURL ? { uri: imageURL } : require("../assets/icon.png")}
-        />
-      </TouchableOpacity>
+      <Avatar
+        style={styles.profilePicture}
+        rounded
+        source={{
+          uri:
+            pictureUrl ||
+            "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png",
+        }}
+        size={200}
+        overlayContainerStyle={{
+          borderWidth: 2,
+          borderColor: "black",
+        }}
+      />
 
       <TextInput
         style={styles.input}
@@ -112,14 +94,12 @@ const Profile = ({ navigation }) => {
         onChangeText={(text) => setPassword(text)}
         secureTextEntry={true}
       />
-
       <TextInput
         style={styles.input}
-        placeholder="Picture"
-        value={imageURL}
-        onChangeText={(text) => setImageURL(text)}
+        placeholder="Picture Url"
+        value={pictureUrl}
+        onChangeText={(text) => setURL(text)}
       />
-
       {errorMessage && <Text style={styles.error}>{errorMessage}</Text>}
       <TouchableOpacity style={styles.button} onPress={handleUpdate}>
         <Text style={styles.buttonText}>Update</Text>
@@ -138,13 +118,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    padding: 20,
+    padding: 10,
     backgroundColor: "#EAFDFC",
   },
   input: {
-    width: "100%",
-    height: 50,
-    padding: 10,
+    width: "70%",
+    height: 40,
+    padding: 5,
     marginVertical: 10,
     borderWidth: 1,
     borderColor: "gray",
@@ -181,9 +161,7 @@ const styles = StyleSheet.create({
   profilePicture: {
     width: 180,
     height: 180,
-    marginBottom: 50,
-    borderWidth: 3,
+    marginBottom: 10,
     borderColor: "orange",
-    borderRadius: 20,
   },
 });
