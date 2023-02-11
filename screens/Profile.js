@@ -78,17 +78,17 @@ const Profile = ({ navigation }) => {
   };
 
   return (
-    
     <View style={styles.container}>
       <TouchableOpacity onPress={selectPicture}>
-  <Avatar
-    style={styles.profilePicture}
-    rounded
-    source={{
-      uri: auth?.currentUser?.photoURL,
-    }}
-  />
-</TouchableOpacity>
+        <Avatar
+          style={styles.profilePicture}
+          rounded
+          source={{
+            uri:
+              auth?.currentUser?.photoURL || "https://i.imgur.com/7k12EPD.png",
+          }}
+        />
+      </TouchableOpacity>
 
       <TextInput
         style={styles.input}
@@ -118,7 +118,6 @@ const Profile = ({ navigation }) => {
         <Text style={styles.buttonText}>Sign Out</Text>
       </TouchableOpacity>
     </View>
-    
   );
 };
 
@@ -172,8 +171,8 @@ const styles = StyleSheet.create({
     width: 180,
     height: 180,
     marginBottom: 50,
-    borderWidth :3,
-    borderColor :"orange",
-    borderRadius:20
+    borderWidth: 3,
+    borderColor: "orange",
+    borderRadius: 20,
   },
 });
