@@ -23,10 +23,16 @@ const CustomListItem = ({ id, chatName, enterChat }) => {
     <ListItem key={id} onPress={() => enterChat(id, chatName)} buttonDivider>
       <Avatar
         rounded
+        size={40}
         source={{
           uri:
             chatMessages?.[0]?.photoURL ||
             "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png",
+        }}
+        overlayContainerStyle={{
+          borderWidth: 2,
+          borderColor: "purple",
+          borderRadius: 40,
         }}
       />
       <ListItem.Content>
