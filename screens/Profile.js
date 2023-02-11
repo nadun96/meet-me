@@ -9,7 +9,7 @@ import {
 import firebase from "firebase/compat/app";
 import { Avatar } from "react-native-elements";
 import { auth, db } from "../firebase";
-import ImagePicker from "react-native-image-picker";
+import * as ImagePicker from "react-native-image-picker";
 
 const Profile = ({ navigation }) => {
   const [name, setName] = useState("");
