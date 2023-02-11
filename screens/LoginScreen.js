@@ -11,6 +11,16 @@ const LoginScreen = ({ navigation }) => {
   const [password, setPassword] = React.useState("");
 
   useEffect(() => {
+    navigation.setOptions({
+      title: "MeetMe",
+      headerStyle: { backgroundColor: "#fff", fontStyle: "italic" },
+      headerTitleStyle: { color: "black" },
+      headerTitleAlign: "center",
+      headerTintColor: "black",
+    });
+  }, []);
+
+  useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((authUser) => {
       if (authUser) {
         navigation.replace("Home");
@@ -28,9 +38,9 @@ const LoginScreen = ({ navigation }) => {
 
   return (
     <KeyboardAvoidingView behavior="padding" style={styles.container}>
-      <StatusBar style="dark" />
+      <StatusBar style="auto" />
       <Image
-        source={require("../assets/envelope.png")}
+        source={require("../assets/logo.png")}
         style={styles.logo}
         resizeMode="contain"
       />
@@ -71,8 +81,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center",
-    padding: 10,
+    justifyContent: "flex-start",
+    padding: 5,
+    marginTop: 30,
   },
 
   inputContainer: {
@@ -82,17 +93,17 @@ const styles = StyleSheet.create({
 
   button: {
     width: "40%",
-    marginTop: 10,
+    marginTop: 5,
   },
 
   logo: {
-    width: 250,
-    height: 250,
-    marginBottom: 30,
+    width: 200,
+    height: 200,
+    marginBottom: 20,
   },
 
   input: {
     width: "80%",
-    marginBottom: 50,
+    marginBottom: 30,
   },
 });

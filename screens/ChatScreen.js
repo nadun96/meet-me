@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from "react";
+import React, { useLayoutEffect, useState, useRef } from "react";
 import { Avatar } from "react-native-elements";
 import { Ionicons } from "@expo/vector-icons";
 import { Alert, SafeAreaView } from "react-native";
@@ -22,6 +22,11 @@ const ChatScreen = ({ navigation, route }) => {
   console.log(route.params.id);
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState([]);
+  const chatRef = useRef(null);
+
+  const handleOnContentSizeChange = () => {
+    chatRef.current.scrollToEnd({ animated: true });
+  };
 
   useLayoutEffect(() => {
     const unsubscribe = db
@@ -132,7 +137,12 @@ const ChatScreen = ({ navigation, route }) => {
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <>
-            <ScrollView contentContainerStyle={{ paddingTop: 15 }}>
+            <ScrollView
+              contentContainerStyle={{ paddingTop: 15 }}
+              ref={chatRef}
+              onContentSizeChange={handleOnContentSizeChange}
+              onLayout={handleOnContentSizeChange}
+            >
               {messages.map(({ id, data }) =>
                 data.email === auth.currentUser.email ? (
                   <View key={id} style={styles.reciever}>
