@@ -1,4 +1,3 @@
-
 import {
   SafeAreaView,
   ScrollView,
@@ -39,14 +38,14 @@ const HomeScreen = ({ navigation }) => {
     return unsubscribe;
   }, []);
 
-
   useLayoutEffect(() => {
     navigation.setOptions({
       title: "MeetMe",
       headerStyle: { backgroundColor: "#E66EB2" },
       headerTitleStyle: {
         color: "black",
-        fontWeight: "bold",
+        fontWeight: "900",
+        fontSize: 24,
       },
       headerTintColor: "black",
       headerLeft: () => (
@@ -58,10 +57,21 @@ const HomeScreen = ({ navigation }) => {
           >
             <Avatar
               rounded
+              size="medium"
               source={{
                 uri: auth?.currentUser?.photoURL
                   ? { uri: auth?.currentUser?.photoURL }
                   : "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png",
+              }}
+              containerStyle={{
+                borderWidth: 2,
+                borderColor: "black",
+                margin: 5,
+              }}
+              overlayContainerStyle={{
+                borderWidth: 2,
+                borderColor: "black",
+                borderRadius: 30,
               }}
             />
           </TouchableOpacity>
@@ -95,7 +105,6 @@ const HomeScreen = ({ navigation }) => {
   return (
     <SafeAreaView>
       <ScrollView style={styles.container}>
-
         {chats.map(({ id, data: { chatName } }) => (
           <CustomListItem
             key={id}
@@ -104,7 +113,6 @@ const HomeScreen = ({ navigation }) => {
             enterChat={enterChat}
           />
         ))}
-
       </ScrollView>
     </SafeAreaView>
   );
@@ -113,9 +121,7 @@ const HomeScreen = ({ navigation }) => {
 export default HomeScreen;
 
 const styles = StyleSheet.create({
-
   container: {
     height: "100%",
   },
 });
-
