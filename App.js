@@ -25,6 +25,10 @@ const globalScreenOptions = {
   headerTextAlign: "center",
 };
 
+LoginScreen.navigationOptions = {
+  headerLeft: null,
+};
+
 export default function App() {
   return (
     <NavigationContainer>
