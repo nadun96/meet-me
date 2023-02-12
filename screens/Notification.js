@@ -88,9 +88,6 @@ const Notification = () => {
                             onPress={() => deleteNotification(item)} 
                             style={styles.todoIcon} />
                             <View style={styles.innerContainer}>
-                                <Text>
-                                    {auth?.currentUser?.displayName}
-                                </Text>
                                 <Text style={styles.itemHeading}>
                                     {item.heading[0].toUpperCase() + item.heading.slice(1)}
                                 </Text>

@@ -29,7 +29,7 @@ const Detail = ({route}) => {
                 style={styles.textfield}
                 onChangeText={onChangeHeadingText}
                 value={textHeading}
-                placeholder="Update Notification"
+                placeholder={route.params.item.heading}
             />
             <Pressable 
                 style={styles.buttonUpdate}
