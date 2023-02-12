@@ -43,7 +43,6 @@ const AddChatScreen = ({ navigation }) => {
         doc.ref.delete();
       });
       navigation.goBack();
-      alert();
       Alert.alert("Success", "Chat deleted successfully");
     } catch (error) {
       Alert.alert("Error", "Delete Chat Failed");
